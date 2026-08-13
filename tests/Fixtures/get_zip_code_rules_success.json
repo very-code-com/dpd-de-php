@@ -1,0 +1,12 @@
+{
+  "Ack": true,
+  "ZipCodeRules": {
+    "Country": "DE",
+    "ZipCode": "12345",
+    "NoPickupDays": "2024-01-01,2024-12-25",
+    "ExpressCutOff": "16:00",
+    "ClassicCutOff": "17:00",
+    "PickupDepot": "0123",
+    "State": "BE"
+  }
+}

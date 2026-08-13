@@ -1,0 +1,14 @@
+dpd-de-php
+PHP client for the DPD Cloud Service Webservice (DPD Deutschland)
+
+Copyright 2026 Very Code
+Homepage: https://very-code.com
+Repository: https://github.com/very-code-com/dpd-de-php
+
+This product provides an open-source PHP client for the DPD Cloud Service
+Webservice (SOAP + REST), covering shipment creation (setOrder), parcel
+tracking (getParcelLifeCycle, getOrderStatus), pickup-point lookup
+(getParcelShopFinder) and pickup zip-code rules (getZipCodeRules).
+
+Licensed under the Apache License, Version 2.0.
+You must retain this NOTICE file in any redistribution or derivative work.

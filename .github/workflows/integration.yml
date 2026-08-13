@@ -1,0 +1,97 @@
+name: Integration (DPD sandbox)
+
+# Runs the integration suite against the real DPD Cloud Service sandbox
+# (cloud-stage.dpd.com). Deliberately NOT part of the pull-request gate:
+#   - forks cannot read repository secrets, so the job would be useless there;
+#   - DPD enforces a per-account call limit (2027 CLOUD_API_USERCALLLIMIT, 10 min
+#     cool-down), so it must not run once per push per PHP version.
+#
+# Credentials live in the "dpd-sandbox" environment rather than in repository secrets:
+# only jobs that opt into that environment can read them, and only from the branches
+# its deployment policy allows. Set these four there (values are DPD's shared sandbox
+# account, see README "Where to get sandbox (Testsystem) credentials"):
+#   DPD_CLOUD_PARTNER_NAME, DPD_CLOUD_PARTNER_TOKEN,
+#   DPD_CLOUD_USER_ID, DPD_CLOUD_USER_TOKEN
+# Without them the job reports "not configured" and stops; it never fails the build
+# for a missing secret.
+
+on:
+  push:
+    branches: ["master"]
+  schedule:
+    # 04:17 UTC daily, off the hour to avoid the top-of-hour runner rush.
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+    inputs:
+      create_labels:
+        description: "Also run the tests that issue real sandbox labels"
+        type: boolean
+        default: true
+
+# One run at a time: parallel runs share the same DPD account and would race
+# towards its call limit.
+concurrency:
+  group: dpd-sandbox-integration
+  cancel-in-progress: false
+
+jobs:
+  integration:
+    name: DPD sandbox (SOAP + REST)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: dpd-sandbox
+
+    permissions:
+      contents: read
+
+    env:
+      DPD_CLOUD_SANDBOX: "1"
+      DPD_CLOUD_PARTNER_NAME: ${{ secrets.DPD_CLOUD_PARTNER_NAME }}
+      DPD_CLOUD_PARTNER_TOKEN: ${{ secrets.DPD_CLOUD_PARTNER_TOKEN }}
+      DPD_CLOUD_USER_ID: ${{ secrets.DPD_CLOUD_USER_ID }}
+      DPD_CLOUD_USER_TOKEN: ${{ secrets.DPD_CLOUD_USER_TOKEN }}
+      # Tests that call setOrder with startOrder consume a parcel number from the
+      # account's range. Harmless on the sandbox, never acceptable on production.
+      DPD_CLOUD_ALLOW_LABELS: ${{ github.event_name == 'workflow_dispatch' && inputs.create_labels == false && '0' || '1' }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check that sandbox credentials are configured
+        id: creds
+        run: |
+          if [ -z "${DPD_CLOUD_PARTNER_TOKEN}" ] || [ -z "${DPD_CLOUD_USER_TOKEN}" ]; then
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Integration tests skipped::DPD sandbox credentials are not configured as repository secrets."
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up PHP
+        if: steps.creds.outputs.configured == 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: curl, dom, json
+          coverage: none
+
+      - name: Get Composer cache directory
+        if: steps.creds.outputs.configured == 'true'
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer downloads
+        if: steps.creds.outputs.configured == 'true'
+        uses: actions/cache@v6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        if: steps.creds.outputs.configured == 'true'
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run integration tests
+        if: steps.creds.outputs.configured == 'true'
+        run: vendor/bin/phpunit --testsuite integration --testdox

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <getZipCodeRulesResponse xmlns="https://cloud.dpd.com/">
+      <getZipCodeRulesResult>
+        <Version>100</Version>
+        <Language>de_DE</Language>
+        <Ack>false</Ack>
+        <TimeStamp>2024-01-15T10:00:00</TimeStamp>
+        <ErrorDataList>
+          <ErrorDataType>
+            <ErrorID>1</ErrorID>
+            <ErrorCode>CLOUD_API_PARTNERCREDENTIALS</ErrorCode>
+            <ErrorMsgShort>Invalid partner credentials</ErrorMsgShort>
+            <ErrorMsgLong>Partner Credentials invalid.</ErrorMsgLong>
+          </ErrorDataType>
+        </ErrorDataList>
+      </getZipCodeRulesResult>
+    </getZipCodeRulesResponse>
+  </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,43 @@
+{
+  "Ack": true,
+  "ResultCounter": 1,
+  "ParcelShopList": [
+    {
+      "ParcelShopID": 987654,
+      "ShopAddress": {
+        "Company": "Kiosk Mustermann",
+        "Street": "Hauptstr.",
+        "HouseNo": "5",
+        "Country": "DE",
+        "ZipCode": "12345",
+        "City": "Berlin"
+      },
+      "Homepage": "https://example.com",
+      "GeoData": {
+        "Distance": 0.42,
+        "Longitude": 13.404954,
+        "Latitude": 52.520008,
+        "CoordinateX": 1.1,
+        "CoordinateY": 2.2,
+        "CoordinateZ": 3.3
+      },
+      "ExpressCutOff": "16:00",
+      "ShopServiceList": ["SearchAll", "Paketstation"],
+      "OpeningHoursList": [
+        {
+          "WeekDay": "Monday",
+          "OpenTimeList": [
+            { "TimeFrom": "08:00", "TimeEnd": "18:00" }
+          ]
+        }
+      ],
+      "HolidayList": [
+        { "HolidayFrom": "2024-12-24T00:00:00", "HolidayEnd": "2024-12-26T00:00:00" }
+      ],
+      "ExtraInfo": "Ring the bell twice",
+      "ServiceDetail": "Parcel locker on ground floor",
+      "CustomerNo": "CUST-1",
+      "ParcelStation": "parcelstation"
+    }
+  ]
+}

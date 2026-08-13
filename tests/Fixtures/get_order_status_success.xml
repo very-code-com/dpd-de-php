@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <getOrderStatusResponse xmlns="https://cloud.dpd.com/">
+      <getOrderStatusResult>
+        <Version>100</Version>
+        <Language>de_DE</Language>
+        <Ack>true</Ack>
+        <TimeStamp>2024-01-15T10:00:00</TimeStamp>
+        <OrderStatus>
+          <ParcelNo>01234567890123</ParcelNo>
+          <OrderInformation>
+            <ParcelNo>01234567890123</ParcelNo>
+            <ServiceCode>101</ServiceCode>
+            <ProductName>Classic</ProductName>
+            <Reference>ORDER-1</Reference>
+            <Weight>2.5</Weight>
+            <Collis>1</Collis>
+            <CompleteDelivery>true</CompleteDelivery>
+            <ReceiverName>Max Mustermann</ReceiverName>
+            <SenderName>Very Code</SenderName>
+            <EstimatedDeliveryTime>2024-01-16</EstimatedDeliveryTime>
+          </OrderInformation>
+          <ShipAddress>
+            <Name>Max Mustermann</Name>
+            <Street>Musterstr.</Street>
+            <HouseNo>1</HouseNo>
+            <Country>DE</Country>
+            <ZipCode>12345</ZipCode>
+            <City>Berlin</City>
+          </ShipAddress>
+          <LastStatusInfo>
+            <StatusReached>true</StatusReached>
+            <StatusID>DELIVERED</StatusID>
+            <Headline>Delivered</Headline>
+            <Description>Your parcel has been delivered.</Description>
+            <StatusDate>2024-01-16T12:00:00</StatusDate>
+          </LastStatusInfo>
+          <StatusInfoContainer>
+            <Start>
+              <StatusReached>true</StatusReached>
+              <StatusID>SHIPMENT</StatusID>
+              <Headline>Shipment created</Headline>
+            </Start>
+            <Delivered>
+              <StatusReached>true</StatusReached>
+              <StatusID>DELIVERED</StatusID>
+              <Headline>Delivered</Headline>
+            </Delivered>
+          </StatusInfoContainer>
+        </OrderStatus>
+        <SystemInformation>OK</SystemInformation>
+      </getOrderStatusResult>
+    </getOrderStatusResponse>
+  </soap:Body>
+</soap:Envelope>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <getParcelLifeCycleResponse xmlns="https://cloud.dpd.com/">
+      <getParcelLifeCycleResult>
+        <Version>100</Version>
+        <Language>de_DE</Language>
+        <Ack>true</Ack>
+        <TimeStamp>2024-01-15T10:00:00</TimeStamp>
+        <ParcelLifeCycleData>
+          <shipmentInfo xmlns="">
+            <status>DELIVERED</status>
+            <label>
+              <content>Delivered</content>
+              <bold>true</bold>
+              <paragraph>false</paragraph>
+            </label>
+            <description>
+              <content>
+                <content>Your parcel has been delivered.</content>
+                <bold>false</bold>
+                <paragraph>true</paragraph>
+              </content>
+            </description>
+            <statusHasBeenReached>true</statusHasBeenReached>
+            <isCurrentStatus>true</isCurrentStatus>
+            <showContactInfo>false</showContactInfo>
+            <receiver>
+              <content>
+                <content>Max Mustermann</content>
+                <bold>false</bold>
+                <paragraph>false</paragraph>
+              </content>
+            </receiver>
+            <trackingProperty>
+              <key>weight</key>
+              <value>2.5</value>
+            </trackingProperty>
+          </shipmentInfo>
+          <statusInfo xmlns="">
+            <status>SHIPMENT</status>
+            <statusHasBeenReached>true</statusHasBeenReached>
+            <isCurrentStatus>false</isCurrentStatus>
+            <showContactInfo>false</showContactInfo>
+          </statusInfo>
+          <statusInfo xmlns="">
+            <status>DELIVERED</status>
+            <statusHasBeenReached>true</statusHasBeenReached>
+            <isCurrentStatus>true</isCurrentStatus>
+            <showContactInfo>false</showContactInfo>
+          </statusInfo>
+          <contactInfo xmlns="">
+            <label>
+              <content>Support</content>
+              <bold>true</bold>
+              <paragraph>false</paragraph>
+            </label>
+            <content>
+              <content>support@dpd.de</content>
+              <bold>false</bold>
+              <paragraph>false</paragraph>
+            </content>
+          </contactInfo>
+        </ParcelLifeCycleData>
+        <SystemInformation>OK</SystemInformation>
+      </getParcelLifeCycleResult>
+    </getParcelLifeCycleResponse>
+  </soap:Body>
+</soap:Envelope>

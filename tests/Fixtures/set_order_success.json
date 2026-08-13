@@ -1,0 +1,12 @@
+{
+  "Ack": true,
+  "LabelResponse": {
+    "LabelPDF": "JVBERi0xLjQtZmFrZS1wZGYtY29udGVudA==",
+    "LabelDataList": [
+      {
+        "YourInternalID": "ORDER-1",
+        "ParcelNo": "01234567890123"
+      }
+    ]
+  }
+}

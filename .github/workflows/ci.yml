@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches: ["master", "develop"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: PHP ${{ matrix.php }} (PHPUnit)
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["8.2", "8.3", "8.4"]
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: curl, dom, json
+          coverage: none
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer downloads
+        uses: actions/cache@v6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run unit tests
+        run: vendor/bin/phpunit --testsuite unit
+
+      # The examples are part of the documentation; a broken one is a broken doc.
+      - name: Lint examples
+        run: find examples -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      # 05 and 08 run without credentials or network; 08 stops before its one live call.
+      - name: Run offline examples
+        run: php examples/05_di_and_testing.php > /dev/null
+
+  analyse:
+    name: PHPStan (level 8)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: curl, dom, json
+          coverage: none
+
+      - name: Validate composer.json
+        run: composer validate --strict --no-interaction
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer downloads
+        uses: actions/cache@v6
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Cache PHPStan result cache
+        uses: actions/cache@v6
+        with:
+          path: /tmp/phpstan-cache-dpd-de-php
+          key: phpstan-${{ runner.os }}-${{ hashFiles('src/**/*.php', 'phpstan.neon') }}
+          restore-keys: phpstan-${{ runner.os }}-
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --error-format=github

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <getZipCodeRulesResponse xmlns="https://cloud.dpd.com/">
+      <getZipCodeRulesResult>
+        <Version>100</Version>
+        <Language>de_DE</Language>
+        <Ack>true</Ack>
+        <TimeStamp>2024-01-15T10:00:00</TimeStamp>
+        <ZipCodeRules>
+          <Country>DE</Country>
+          <ZipCode>12345</ZipCode>
+          <NoPickupDays>2024-01-01,2024-12-25</NoPickupDays>
+          <ExpressCutOff>16:00</ExpressCutOff>
+          <ClassicCutOff>17:00</ClassicCutOff>
+          <PickupDepot>0123</PickupDepot>
+          <State>BE</State>
+        </ZipCodeRules>
+        <SystemInformation>OK</SystemInformation>
+      </getZipCodeRulesResult>
+    </getZipCodeRulesResponse>
+  </soap:Body>
+</soap:Envelope>

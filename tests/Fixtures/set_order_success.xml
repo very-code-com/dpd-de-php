@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <setOrderResponse xmlns="https://cloud.dpd.com/">
+      <setOrderResult>
+        <Version>100</Version>
+        <Language>de_DE</Language>
+        <Ack>true</Ack>
+        <TimeStamp>2024-01-15T10:00:00</TimeStamp>
+        <LabelResponse>
+          <LabelPDF>JVBERi0xLjQtZmFrZS1wZGYtY29udGVudA==</LabelPDF>
+          <LabelDataList>
+            <LabelData>
+              <YourInternalID>ORDER-1</YourInternalID>
+              <ParcelNo>01234567890123</ParcelNo>
+            </LabelData>
+          </LabelDataList>
+        </LabelResponse>
+        <SystemInformation>OK</SystemInformation>
+      </setOrderResult>
+    </setOrderResponse>
+  </soap:Body>
+</soap:Envelope>

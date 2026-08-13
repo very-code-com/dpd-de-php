@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+  <soap:Body>
+    <getParcelShopFinderResponse xmlns="https://cloud.dpd.com/">
+      <getParcelShopFinderResult>
+        <Version>100</Version>
+        <Language>de_DE</Language>
+        <Ack>true</Ack>
+        <TimeStamp>2024-01-15T10:00:00</TimeStamp>
+        <ResultCounter>1</ResultCounter>
+        <ParcelShopList>
+          <ParcelShop>
+            <ParcelShopID>987654</ParcelShopID>
+            <ShopAddress>
+              <Company>Kiosk Mustermann</Company>
+              <Street>Hauptstr.</Street>
+              <HouseNo>5</HouseNo>
+              <Country>DE</Country>
+              <ZipCode>12345</ZipCode>
+              <City>Berlin</City>
+            </ShopAddress>
+            <Homepage>https://example.com</Homepage>
+            <GeoData>
+              <Distance>0.42</Distance>
+              <Longitude>13.404954</Longitude>
+              <Latitude>52.520008</Latitude>
+              <CoordinateX>1.1</CoordinateX>
+              <CoordinateY>2.2</CoordinateY>
+              <CoordinateZ>3.3</CoordinateZ>
+            </GeoData>
+            <ExpressCutOff>16:00</ExpressCutOff>
+            <ShopServiceList>
+              <ShopService>SearchAll</ShopService>
+              <ShopService>Paketstation</ShopService>
+            </ShopServiceList>
+            <OpeningHoursList>
+              <OpeningHours>
+                <WeekDay>Monday</WeekDay>
+                <OpenTimeList>
+                  <OpenTimeType>
+                    <TimeFrom>08:00</TimeFrom>
+                    <TimeEnd>18:00</TimeEnd>
+                  </OpenTimeType>
+                </OpenTimeList>
+              </OpeningHours>
+            </OpeningHoursList>
+            <HolidayList>
+              <Holiday>
+                <HolidayFrom>2024-12-24T00:00:00</HolidayFrom>
+                <HolidayEnd>2024-12-26T00:00:00</HolidayEnd>
+              </Holiday>
+            </HolidayList>
+            <ExtraInfo>Ring the bell twice</ExtraInfo>
+            <ServiceDetail>Parcel locker on ground floor</ServiceDetail>
+            <CustomerNo>CUST-1</CustomerNo>
+            <ParcelStation>parcelstation</ParcelStation>
+          </ParcelShop>
+        </ParcelShopList>
+        <SystemInformation>OK</SystemInformation>
+      </getParcelShopFinderResult>
+    </getParcelShopFinderResponse>
+  </soap:Body>
+</soap:Envelope>

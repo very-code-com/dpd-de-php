@@ -1,0 +1,43 @@
+{
+  "Ack": true,
+  "ParcelNo": "01234567890123",
+  "OrderInformation": {
+    "ParcelNo": "01234567890123",
+    "ServiceCode": 101,
+    "ProductName": "Classic",
+    "Reference": "ORDER-1",
+    "Weight": "2.5",
+    "Collis": 1,
+    "CompleteDelivery": true,
+    "ReceiverName": "Max Mustermann",
+    "SenderName": "Very Code",
+    "EstimatedDeliveryTime": "2024-01-16"
+  },
+  "ShipAddress": {
+    "Name": "Max Mustermann",
+    "Street": "Musterstr.",
+    "HouseNo": "1",
+    "Country": "DE",
+    "ZipCode": "12345",
+    "City": "Berlin"
+  },
+  "LastStatusInfo": {
+    "StatusReached": true,
+    "StatusID": "DELIVERED",
+    "Headline": "Delivered",
+    "Description": "Your parcel has been delivered.",
+    "StatusDate": "2024-01-16T12:00:00"
+  },
+  "StatusInfoContainer": {
+    "Start": {
+      "StatusReached": true,
+      "StatusID": "SHIPMENT",
+      "Headline": "Shipment created"
+    },
+    "Delivered": {
+      "StatusReached": true,
+      "StatusID": "DELIVERED",
+      "Headline": "Delivered"
+    }
+  }
+}
