@@ -275,17 +275,28 @@ final class RestResponseParser
     /** @param array<string, mixed> $data */
     public function orderStatus(array $data): OrderStatus
     {
+        // Unlike the other REST operations, the live getOrderStatus endpoint wraps its payload
+        // in an "OrderStatus" property (matching the SOAP response type). Keep accepting the
+        // historical flat shape as well, since older fixtures/examples used it.
+        $payload = is_array($data['OrderStatus'] ?? null) ? $data['OrderStatus'] : $data;
+
+        if ($this->str($payload, 'ParcelNo') === null) {
+            throw new DpdCloudResponseParseException(
+                'DPD Cloud Service getOrderStatus response is missing the OrderStatus payload.'
+            );
+        }
+
         /** @var array<string, mixed>|null $orderInfo */
-        $orderInfo = is_array($data['OrderInformation'] ?? null) ? $data['OrderInformation'] : null;
+        $orderInfo = is_array($payload['OrderInformation'] ?? null) ? $payload['OrderInformation'] : null;
         /** @var array<string, mixed>|null $shipAddress */
-        $shipAddress = is_array($data['ShipAddress'] ?? null) ? $data['ShipAddress'] : null;
+        $shipAddress = is_array($payload['ShipAddress'] ?? null) ? $payload['ShipAddress'] : null;
         /** @var array<string, mixed>|null $lastStatus */
-        $lastStatus = is_array($data['LastStatusInfo'] ?? null) ? $data['LastStatusInfo'] : null;
+        $lastStatus = is_array($payload['LastStatusInfo'] ?? null) ? $payload['LastStatusInfo'] : null;
         /** @var array<string, mixed>|null $container */
-        $container = is_array($data['StatusInfoContainer'] ?? null) ? $data['StatusInfoContainer'] : null;
+        $container = is_array($payload['StatusInfoContainer'] ?? null) ? $payload['StatusInfoContainer'] : null;
 
         return new OrderStatus(
-            parcelNo: $this->str($data, 'ParcelNo'),
+            parcelNo: $this->str($payload, 'ParcelNo'),
             orderInformation: $orderInfo !== null ? $this->orderInformation($orderInfo) : null,
             shipAddress: $shipAddress !== null ? $this->address($shipAddress) : null,
             lastStatusInfo: $lastStatus !== null ? $this->statusInfoDetail($lastStatus) : null,
