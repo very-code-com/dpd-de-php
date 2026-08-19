@@ -91,3 +91,13 @@ nested, UI-oriented JSON response shape has no REST parser in this library.
 8. **`LabelSize::ZplA6` silently returns a PDF.** DPD accepts `ZPL_A6` without an error but
    the `LabelPDF` payload still starts with `%PDF-`. Matches the PDF's remark that ZPL "wird
    aktuell nicht unterstützt"; there is just no error to tell you.
+9. **REST `getOrderStatus` has an extra response wrapper.** The live endpoint returns the
+   tracking payload under the top-level `OrderStatus` property, even though DPD's older REST
+   examples showed those fields at the top level. The parser accepts both shapes.
+10. **Labels cannot be fetched again by parcel number.** The service exposes no label-download
+    or reprint operation. `LabelPDF` is returned only by `setOrder` with
+    `OrderAction=startOrder`; applications must persist those decoded bytes if a later reprint
+    is required. Calling `startOrder` again creates a new parcel number rather than retrieving
+    an existing label. As a manual fallback, DPD documents reprinting from the linked myDPD
+    account's order list via the printer icon, provided the order is visible there:
+    <https://www.dpd.com/de/de/faq/wie-kann-ich-einen-paketschein-nachdrucken/>.

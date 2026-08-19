@@ -163,4 +163,32 @@ final class RestResponseParserTest extends TestCase
         self::assertSame('SHIPMENT', $status->statusInfoContainer->start->statusId);
         self::assertNull($status->statusInfoContainer->onTheRoad);
     }
+
+    public function testOrderStatusParsesLiveApiWrapper(): void
+    {
+        $flat = $this->parser->decode($this->fixture('get_order_status_success.json'));
+        unset($flat['Ack']);
+
+        $status = $this->parser->orderStatus([
+            'Ack' => true,
+            'OrderStatus' => $flat,
+            'SystemInformation' => null,
+            'ErrorDataList' => null,
+        ]);
+
+        self::assertSame('01234567890123', $status->parcelNo);
+        self::assertNotNull($status->orderInformation);
+        self::assertNotNull($status->shipAddress);
+        self::assertNotNull($status->lastStatusInfo);
+        self::assertSame('DELIVERED', $status->lastStatusInfo->statusId);
+        self::assertNotNull($status->statusInfoContainer);
+    }
+
+    public function testOrderStatusThrowsWhenPayloadIsMissing(): void
+    {
+        $this->expectException(\VeryCodeCom\DpdDe\Exception\DpdCloudResponseParseException::class);
+        $this->expectExceptionMessage('missing the OrderStatus payload');
+
+        $this->parser->orderStatus(['Ack' => true]);
+    }
 }

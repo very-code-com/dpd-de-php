@@ -11,6 +11,27 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [1.0.1] - 2026-08-19
+
+Fixes `fetchOrderStatus()` over REST against the live DPD Cloud Service. The production API
+wraps tracking data in an `OrderStatus` property; the client expected those fields at the response
+root and therefore returned an empty DTO even when DPD answered with `Ack=true`. SOAP was not
+affected. Verified against the production REST endpoint and the current DPD WSDL.
+
+### Fixed
+
+- `RestResponseParser::orderStatus()` now reads the live API's top-level `OrderStatus` wrapper
+  while retaining support for the historical flat response shape.
+- A successful response without an order-status payload now raises
+  `DpdCloudResponseParseException` instead of silently returning an empty `OrderStatus`.
+
+### Documented
+
+- Clarify that DPD Cloud Service has no API operation for downloading/reprinting a label by
+  parcel number; the `LabelPDF` returned by `setOrder/startOrder` must be stored by the caller.
+  The linked myDPD order list is documented as the manual reprint fallback when the order is
+  available there.
+
 ## [1.0.0], 2026-08-13
 
 Initial release.
@@ -91,5 +112,6 @@ Initial release.
   1:1 with the WSDL for completeness but is deprecated. DPD discontinued the service on
   2020-05-11.
 
-[Unreleased]: https://github.com/very-code-com/dpd-de-php/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/very-code-com/dpd-de-php/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/very-code-com/dpd-de-php/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/very-code-com/dpd-de-php/releases/tag/v1.0.0
